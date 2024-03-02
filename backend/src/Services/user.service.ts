@@ -1,4 +1,4 @@
-import { User } from "../Models/user";
+import { IUser, User } from "../Models/user";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { secret } from "../Config/auth.json"
@@ -13,7 +13,6 @@ class UserService {
             }
 
             const isMatch: boolean = await bcrypt.compare(password, user.password)
-
             if (isMatch) {
                 const token: string = jwt.sign({ _id: user._id, email: user.email }, secret)
                 user.password = ""
@@ -23,6 +22,20 @@ class UserService {
             return null
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async register(data: Partial<IUser>) {
+        try {
+            const user = await User.create(data)
+
+            if (!user) {
+                return null
+            }
+
+            return user
+        } catch (error) {
+            return
         }
     }
 }
