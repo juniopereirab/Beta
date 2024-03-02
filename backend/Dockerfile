@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.10
+FROM node:16.13.0-alpine
 
 #Define the work directory path
 WORKDIR /backend
@@ -10,6 +10,6 @@ COPY tsconfig.json ./
 COPY src/ /backend/src/
 
 #Installing the dependencies inside the Docker
-RUN npm install
+RUN npm install --silent
 
 EXPOSE 5050

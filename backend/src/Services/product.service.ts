@@ -1,7 +1,9 @@
+import axios from "axios";
+import { GetProductsParams } from "../Interfaces/product";
 import { IProduct, Product } from "../Models/product";
 
-export class ProductService {
-  async createProduct(data: IProduct) {
+class ProductService {
+  async createProduct(data: Partial<IProduct>) {
     try {
       const newProduct = await Product.create(data)
       return newProduct
@@ -10,19 +12,45 @@ export class ProductService {
     }
   }
 
-  async getProducts() {
+  async getProducts(params: GetProductsParams) {
+    const { search, limit, skip, category } = params
     try {
+      const baseUrl = 'https://dummyjson.com/products'
+      const hasSearch =  search ? '/search' : ''
+      const hasCategory =  category ? `/category/${category}` : ''
+
+      const response = await axios.get(`${baseUrl}${hasSearch}${hasCategory}`, {
+        params: {
+          skip: skip,
+          limit: limit,
+          q: search,
+        }
+      })
+
       const products = await Product.find({})
-      return products
+
+      const allProducts = response.data.products.concat(products)
+      return {
+        ...response.data,
+        products: allProducts,
+        total: response.data.total + products.length,
+      }
     } catch (error) {
       console.log(error)
     }
   }
 
-  async getProduct(id: number) {
+  async getProduct(id: string) {
     try {
-      const product = await Product.findOne({ _id: id })
-      return product
+      if (isNaN(Number(id))) {
+        const product = await Product.findById(id)
+
+        return product
+      }
+
+      const product = await axios.get(`https://dummyjson.com/products/${id}`)
+
+      return product.data
     } catch (error) {
       console.log(error)
     }
@@ -30,28 +58,45 @@ export class ProductService {
 
   async getCategories() {
     try {
-    // Fazer requisição para DummyJson
+    const categories = await axios.get('https://dummyjson.com/products/categories/')
+
+    return categories.data
     } catch (error) {
       console.log(error)
     }
   }
 
-  async updateProduct (data: IProduct) {
+  async updateProduct (data: Partial<IProduct>) {
     try {
-      const product = await Product.updateOne({ _id: data._id }, data)
+      if (isNaN(Number(data._id))) {
+        const product = await Product.findByIdAndUpdate(data._id, data)
+        return product
+      }
+
+      const product = await axios.put(`https://dummyjson.com/products/${data._id}`, data)
       return product
     } catch (error) {
       console.log(error)
     }
   }
 
-  async deleteProduct (id: number) {
+  async deleteProduct (id: string) {
     try {
-      await Product.deleteOne({ _id: id })
-      return
+      if (isNaN(Number(id))) {
+        await Product.findByIdAndDelete(id)
+
+        return { removed: true }
+      }
+
+      await axios.delete(`https://dummyjson.com/products/${id}`)
+      
+      return { removed: true }
     } catch (error) {
       console.log(error)
+      return { removed: false }
     }
   }
 
 }
+
+export const productService = new ProductService()

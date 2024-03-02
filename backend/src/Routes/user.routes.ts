@@ -1,6 +1,6 @@
 import express from "express"
 import { userController } from "../Controllers/user.controller"
 
-export const router = express.Router()
+export const userRouter = express.Router()
 
-router.post('/login', userController.Login)
+userRouter.post('/login', userController.Login)
