@@ -26,17 +26,3 @@ services:
         - '5050:5050'
       depends_on: 
         - db
-
-  frontend:
-      container_name: beta_frontend
-      command: npm run dev
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      volumes:
-        - ./frontend:/frontend
-        - /frontend/node_modules
-      ports:
-        - '3000:3000'
-      depends_on: 
-        - backend 
