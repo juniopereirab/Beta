@@ -42,7 +42,9 @@ class UserController {
                 return res.status(400).json({ error: "Error to create user" })
             }
 
-            return res.status(200).json(user)
+            const logon = await userService.login(user.email, password)
+
+            return res.status(200).json(logon)
         } catch (error) {
             return res.status(500).json({ error: "Internal server error" })
         }

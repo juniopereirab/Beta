@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { login } from './authService'
+import { login, register } from './authService'
 import { IUser } from '../../../interfaces/User'
 import { LoginReturn } from '../../../interfaces/Responses'
 
@@ -24,13 +24,22 @@ const authSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(login.fulfilled, (state, action: PayloadAction<LoginReturn>) => {
-            return {
-                isAuthenticated: true,
-                token: action.payload.token,
-                user: action.payload.user,
-            }
-        })
+        builder
+            .addCase(login.fulfilled, (_, action: PayloadAction<LoginReturn>) => {
+                return {
+                    isAuthenticated: true,
+                    token: action.payload.token,
+                    user: action.payload.user,
+                }
+            })
+            .addCase(register.fulfilled, (_, action: PayloadAction<LoginReturn>) => {
+                return {
+                    isAuthenticated: true,
+                    token: action.payload.token,
+                    user: action.payload.user
+                }
+            })
+        
     }
 })
 

@@ -2,21 +2,31 @@
 import { Stack, TextField, Button } from '@mui/material'
 import Image from 'next/image'
 import { useFormik } from 'formik'
-import { useAppDispatch } from '../../lib/hooks'
+import { useAppDispatch, useAppSelector } from '../../lib/hooks'
 import { login } from '../../lib/features/auth/authService'
 import { useRouter } from 'next/navigation'
 import { authRoutes } from '../../routes'
-import { AppDispatch } from '../../lib/store'
+import { LoginValidation } from '../../utils/validation'
+import { RootState } from '../../lib/store'
+import { useEffect } from 'react'
 
 export default function Login() {
+  const { isAuthenticated } = useAppSelector((state: RootState) => state.auth)
   const dispatch = useAppDispatch()
   const router = useRouter()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+        router.push('/')
+    }
+}, [isAuthenticated, router])
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
+    validationSchema: LoginValidation,
     onSubmit(values) {
       dispatch(login({
         email: values.email,
