@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../lib/hooks'
 import { login } from '../../lib/features/auth/authService'
 import { useRouter } from 'next/navigation'
-import { authRoutes } from '../../routes'
+import { authRoutes, productRoutes } from '../../routes'
 import { LoginValidation } from '../../utils/validation'
 import { RootState } from '../../lib/store'
 import { useEffect } from 'react'
@@ -17,7 +17,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-        router.push('/')
+        router.push(productRoutes.products)
     }
 }, [isAuthenticated, router])
 

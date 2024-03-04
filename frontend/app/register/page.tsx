@@ -3,7 +3,7 @@ import { Stack, TextField, Button } from '@mui/material'
 import Image from 'next/image';
 import { useFormik } from 'formik'
 import { useRouter } from 'next/navigation';
-import { authRoutes } from '../../routes';
+import { authRoutes, productRoutes } from '../../routes';
 import { RegisterValidation } from '../../utils/validation';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks';
 import { register } from '../../lib/features/auth/authService';
@@ -17,9 +17,10 @@ export default function Register() {
 
   useEffect(() => {
     if (isAuthenticated) {
-        router.push('/')
+      router.push(productRoutes.products)
     }
 }, [isAuthenticated, router])
+
   const formik = useFormik({
     initialValues: {
       name: '',

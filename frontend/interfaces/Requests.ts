@@ -8,3 +8,10 @@ export interface RegisterParam {
     name: string
     password: string
 }
+
+export interface ProductGetParam {
+    limit: number
+    skip: number
+    search?: string
+    category?: string
+}
