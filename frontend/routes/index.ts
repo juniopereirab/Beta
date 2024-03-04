@@ -5,4 +5,6 @@ export const authRoutes = Object.freeze({
 
 export const productRoutes = Object.freeze({
 	products: '/products',
+	newProduct: '/products/new',
+	editProduct: '/products/edit'
 })

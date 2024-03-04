@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getCategories, getProducts } from './productService'
+import { editProduct, getCategories, getProducts } from './productService'
 import { IProduct } from '../../../interfaces/Product'
 import { ProductsReturn } from '../../../interfaces/Responses'
+import { replaceItem } from '@/utils/array'
 
 interface ProductState {
     categories: string[]

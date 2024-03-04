@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { productService } from "../Services/product.service";
 import { GetProductsParams } from "../Interfaces/product";
+import { ProductSchemaValidate } from "../Models/product";
 
 class ProductController {
     async createProduct(req: Request, res: Response) {
@@ -9,6 +10,12 @@ class ProductController {
             const data = {
                 title, description, price, discountPercentage,
                 rating, stock, brand, category, thumbnail,
+            }
+
+            const { error } = ProductSchemaValidate.validate(data)
+
+            if (error) {
+                return res.status(400).json({ error: 'Error to create product' })
             }
 
             const product = await productService.createProduct(data)

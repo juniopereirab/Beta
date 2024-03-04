@@ -27,13 +27,36 @@ class ProductService {
         }
       })
 
-      const products = await Product.find({})
+      if (response.data.products.length < 15) {
+        const newLimit = (limit || 15) - response.data.products.length
+        const newSkip = (skip || 0) - response.data.total
+        const titleQuery = {
+          title: { $regex: search, $options: 'i' } 
+        }
+  
+        const categoryQuery = {
+          category: { $regex: category, $options: 'i' }
+        }
 
-      const allProducts = response.data.products.concat(products)
+        const query = !!search ? titleQuery : !!category ? categoryQuery : {}
+
+        const products = await Product.find(query).limit(newLimit).skip(newSkip > 0 ? newSkip : 0)
+
+        const allProducts = response.data.products.concat(products)
+        const productCount = await Product.countDocuments({})
+        
+        return {
+          ...response.data,
+          products: allProducts,
+          total: response.data.total + productCount,
+          limit: response.data.limit + products.length,
+        }
+      }
+
+      const productCount = await Product.countDocuments({})
       return {
         ...response.data,
-        products: allProducts,
-        total: response.data.total + products.length,
+        total: response.data.total + productCount,
       }
     } catch (error) {
       console.log(error)
@@ -74,7 +97,7 @@ class ProductService {
       }
 
       const product = await axios.put(`https://dummyjson.com/products/${data._id}`, data)
-      return product
+      return product.data
     } catch (error) {
       console.log(error)
     }

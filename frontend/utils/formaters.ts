@@ -33,3 +33,18 @@ export const formatPercent = (value: number | string, abs = true): string => {
         style: 'percent',
     })
 }
+
+export const formatCurrencyNumber = (value: number) => {
+    return (value / 100).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+    })
+}
+
+export const formatPercentNumber = (value: number) => {
+    return (value / 100).toLocaleString('pt-BR', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    })
+}

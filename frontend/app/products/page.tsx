@@ -1,7 +1,7 @@
 "use client"
 import { useAppDispatch, useAppSelector } from '../../lib/hooks'
 import { Fragment, useCallback, useEffect, useMemo } from 'react'
-import { Grid, Box, CircularProgress } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { RootState } from '../../lib/store'
 import { authRoutes } from '../../routes'
@@ -50,13 +50,9 @@ const Products = (props: any) => {
   return (
     <Fragment>
       <Navbar />
-      {products.length === 0 ? (
-        <Box sx={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <CircularProgress />
-        </Box>
-      ) : (
+      {products.length > 0 && (
         <Grid container rowGap='24px' columnGap='12px' paddingBottom='48px' paddingTop='112px' justifyContent='center'>
-          {products.map((product: IProduct) => <ProductCard key={product.id} product={product}/>)}
+          {products.map((product: IProduct) => <ProductCard key={ product._id || product.id } product={product}/>)}
         </Grid>
       )}
       <Pagination page={page} onChange={(_, value) => dispatch(setPage(value))} count={totalPages} />
