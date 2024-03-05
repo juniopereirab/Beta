@@ -2,13 +2,13 @@ version: '3.7'
 
 services:
   backend:
-      container_name: beta_backend
-      command: npm start
-      build:
-        context: ./backend
-        dockerfile: Dockerfile
-      volumes: 
-        - ./backend:/backend
-        - /backend/node_modules
-      ports:
-        - '5050:5050'
+    container_name: beta_backend
+    command: npm start
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes: 
+      - ./backend:/backend
+      - /backend/node_modules
+    ports:
+      - '5050:5050'
