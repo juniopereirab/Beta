@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 
 dotenv.config()
 
-const connectionString = `mongodb://beta_db:27017/BetaDB`
+const connectionString = `mongodb+srv://beta_admin:beta_beta@betaproject.yy5ccsm.mongodb.net/`
 
 const options: mongoose.ConnectOptions = {
   autoIndex: false, // Don't build indexes

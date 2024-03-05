@@ -64,6 +64,7 @@ export default function Register() {
           label='Senha'
           id='password'
           name='password'
+          type='password'
           fullWidth
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -72,6 +73,7 @@ export default function Register() {
           label='Confirme a senha'
           id='confirmPassword'
           name='confirmPassword'
+          type='password'
           fullWidth
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}

@@ -1,10 +1,10 @@
-import express from 'express'
+import express, { Application } from 'express'
 import cors from 'cors'
 import { db } from '../Config/db.config'
 import { productRouter } from '../Routes/product.routes'
 import { userRouter } from '../Routes/user.routes'
 
-const app = express()
+const app: Application = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -14,6 +14,8 @@ app.use(cors())
 app.use(productRouter)
 app.use(userRouter)
 
-db.then(() => {
-    app.listen(5050, () => console.log('Server is listening on port 5050'))
+app.get('/', (req, res) => {
+    return res.status(200).send({ message: 'Hello World!' })
 })
+
+export { db, app }

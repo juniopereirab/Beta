@@ -38,10 +38,6 @@ class UserController {
 
             const user = await userService.register(data)
 
-            if(!user) {
-                return res.status(400).json({ error: "Error to create user" })
-            }
-
             const logon = await userService.login(user.email, password)
 
             return res.status(200).json(logon)

@@ -76,7 +76,7 @@ const ProductDetail = (props: IPageProps) => {
               </Button>
             </Stack>
           </Stack>
-          <Stack direction='row' width='100%' marginTop='24px' gap='50px'>
+          <Stack direction='row' width='100%' marginTop='24px' gap='50px' justifyContent='center'>
             <Stack>
               <Stack width='100%' gap={2}>
                 <Stack width='100%' maxWidth={600}>
@@ -84,25 +84,29 @@ const ProductDetail = (props: IPageProps) => {
                 </Stack>
                 { product.images && product.images.length > 0 && (
                   <Stack width='100%' direction='row' gap={1} maxWidth={600} overflow='auto' className='hide-scroll' position='relative' ref={imageList}>
-                    <Stack
-                      alignItems='center'
-                      justifyContent='center'
-                      sx={{ background: "#F0F0F0", height: 150, position: 'sticky', left: 0, cursor: 'pointer'}}
-                      onClick={() => imageList.current?.scrollTo({ left: imageList.current.scrollLeft - 300, behavior: 'smooth' })}
-                    >
-                      <ArrowBackIos />
-                    </Stack>
+                    {product.images.length > 3 && (
+                      <Stack
+                        alignItems='center'
+                        justifyContent='center'
+                        sx={{ background: "#F0F0F0", height: 150, position: 'sticky', left: 0, cursor: 'pointer'}}
+                        onClick={() => imageList.current?.scrollTo({ left: imageList.current.scrollLeft - 300, behavior: 'smooth' })}
+                      >
+                        <ArrowBackIos />
+                      </Stack>
+                    )}
                     {product.images.map((image, index) => (
                       <Image src={image} key={`image_${index}`} alt='subimages' width={200} height={150} />
                     ))}
-                    <Stack
-                      alignItems='center'
-                      justifyContent='center'
-                      sx={{ background: "#F0F0F0", height: 150, position: 'sticky', right: 0, cursor: 'pointer' }}
-                      onClick={() => imageList.current?.scrollTo({ left: imageList.current.scrollLeft + 300, behavior: 'smooth' })}
-                    >
-                      <ArrowForwardIos />
-                    </Stack>
+                    {product.images.length > 3 && (
+                      <Stack
+                        alignItems='center'
+                        justifyContent='center'
+                        sx={{ background: "#F0F0F0", height: 150, position: 'sticky', right: 0, cursor: 'pointer' }}
+                        onClick={() => imageList.current?.scrollTo({ left: imageList.current.scrollLeft + 300, behavior: 'smooth' })}
+                      >
+                        <ArrowForwardIos />
+                      </Stack>
+                    )}
                   </Stack>
                 )}
               </Stack>

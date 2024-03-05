@@ -117,6 +117,7 @@ const ProductForm: React.FC<IProductForm> = ({ formik, isEdit = false }) => {
           fullWidth 
           variant='contained'
           onClick={() => formik.handleSubmit()}
+          disabled={!(formik.isValid && formik.dirty)}
         >
           { isEdit ? 'Editar produto' : 'Criar produto' }
         </Button>

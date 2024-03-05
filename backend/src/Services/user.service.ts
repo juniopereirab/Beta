@@ -21,21 +21,16 @@ class UserService {
 
             return null
         } catch (error) {
-            console.log(error)
+            throw error
         }
     }
 
-    async register(data: Partial<IUser>) {
+    async register(data: IUser) {
         try {
             const user = await User.create(data)
-
-            if (!user) {
-                return null
-            }
-
             return user
         } catch (error) {
-            return
+            throw error
         }
     }
 }

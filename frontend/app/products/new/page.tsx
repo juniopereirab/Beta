@@ -14,6 +14,7 @@ import { createProduct } from '../../../lib/features/products/productService'
 import ProductForm from '../../../components/ProductForm'
 import { useRouter } from 'next/navigation'
 import { productRoutes } from '../../../routes'
+import { ProductValidation } from '@/utils/validation'
 
 const NewProduct: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -31,6 +32,7 @@ const NewProduct: React.FC = () => {
       category: [],
       thumbnail: "",
     },
+    validationSchema: ProductValidation,
     onSubmit(values) {
       const { brand, category, description, discountPercentage, price, rating, stock, thumbnail, title } = values
       dispatch(createProduct({

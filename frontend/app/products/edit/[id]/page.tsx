@@ -10,6 +10,7 @@ import ProductForm from '../../../../components/ProductForm'
 import { IProduct } from '../../../../interfaces/Product'
 import { useRouter } from 'next/navigation'
 import { productRoutes } from '../../../../routes'
+import { ProductValidation } from '@/utils/validation'
 
 interface IPageProps {
     params: {
@@ -50,6 +51,7 @@ const EditProduct: React.FC<IPageProps> = (props) => {
       category: [],
       thumbnail: "",
     },
+    validationSchema: ProductValidation,
     enableReinitialize: true,
     onSubmit(values) {
       const { id, _id, brand, category, description, discountPercentage, price, rating, stock, thumbnail, title } = values

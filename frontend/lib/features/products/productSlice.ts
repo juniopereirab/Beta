@@ -2,24 +2,28 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { editProduct, getCategories, getProducts } from './productService'
 import { IProduct } from '../../../interfaces/Product'
 import { ProductsReturn } from '../../../interfaces/Responses'
-import { replaceItem } from '@/utils/array'
+import { orderBy } from '@/utils/array'
 
 interface ProductState {
     categories: string[]
     products: IProduct[]
+    originalProducts: IProduct[]
     page: number
     search: string
     category: string
     total: number
+    ordering: "title" | "brand" | ""
 }
 
 const initialState: ProductState = {
     categories: [],
     products: [],
+    originalProducts: [],
     page: 1,
     search: '',
     category: '',
     total: 0,
+    ordering: '',
 }
 
 const productSlice = createSlice({
@@ -44,6 +48,15 @@ const productSlice = createSlice({
             state.search = initialState.search
             state.page = 1
         },
+        setOrdering(state, action: PayloadAction<'title' | 'brand' | ''>) {
+            state.ordering = action.payload
+
+            if (!!action.payload) {
+                state.products = orderBy(state.products, action.payload)
+            } else {
+                state.products = state.originalProducts
+            }
+        }
     },
     extraReducers: builder => {
         builder
@@ -54,14 +67,22 @@ const productSlice = createSlice({
                 }
             })
             .addCase(getProducts.fulfilled, (state, action: PayloadAction<ProductsReturn>) => {
-                return {
-                    ...state,
-                    products: action.payload.products,
-                    total: action.payload.total
+                if (action.payload) {
+                    let products = action.payload.products
+                    if (!!state.ordering) {
+                        products = orderBy(action.payload.products, state.ordering)
+                    }
+                    return {
+                        ...state,
+                        products,
+                        originalProducts: action.payload.products,
+                        total: action.payload.total
+                    }
                 }
+                return { ...state }
             })
     }
 })
 
-export const { setPage, setCategory, setSearch, cleanState } = productSlice.actions
+export const { setPage, setCategory, setSearch, cleanState, setOrdering } = productSlice.actions
 export default productSlice.reducer

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { GetProductsParams } from "../Interfaces/product";
-import { IProduct, Product } from "../Models/product";
+import { IProduct, IProductDoc, Product } from "../Models/product";
 
 class ProductService {
-  async createProduct(data: Partial<IProduct>) {
+  async createProduct(data: IProduct) {
     try {
       const newProduct = await Product.create(data)
       return newProduct
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
@@ -59,7 +59,7 @@ class ProductService {
         total: response.data.total + productCount,
       }
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
@@ -75,7 +75,7 @@ class ProductService {
 
       return product.data
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
@@ -85,21 +85,21 @@ class ProductService {
 
     return categories.data
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
-  async updateProduct (data: Partial<IProduct>) {
+  async updateProduct (data: Partial<IProductDoc>) {
     try {
       if (isNaN(Number(data._id))) {
-        const product = await Product.findByIdAndUpdate(data._id, data)
+        const product = await Product.updateOne({ _id: data._id }, data)
         return product
       }
 
       const product = await axios.put(`https://dummyjson.com/products/${data._id}`, data)
       return product.data
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
@@ -115,7 +115,6 @@ class ProductService {
       
       return { removed: true }
     } catch (error) {
-      console.log(error)
       return { removed: false }
     }
   }

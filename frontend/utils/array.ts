@@ -1,12 +1,11 @@
-export function replaceItem(array: any[], newItem: any) {
-    return array.map(item => {
-        // Se o ID do item atual corresponder ao ID do novo item,
-        // substituímos o item atual pelo novo item
-        if (item.id === newItem.id) {
-            return newItem;
-        } else {
-            // Caso contrário, mantemos o item atual inalterado
-            return item;
-        }
-    });
+import { IProduct } from "@/interfaces/Product";
+
+export function orderBy(products: IProduct[], by: 'title' | 'brand'): IProduct[] {
+    const compare = (a: IProduct, b: IProduct): number => {
+        if (a[by] < b[by]) return -1;
+        if (a[by] > b[by]) return 1;
+        return 0;
+    };
+
+    return products.sort(compare);
 }

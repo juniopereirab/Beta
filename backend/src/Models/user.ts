@@ -9,14 +9,16 @@ export const UserSchemaValidate = Joi.object({
     profile_pic: Joi.string(),
 })
 
-export interface IUser extends Document {
+export interface IUser {
     name: string;
     email: string;
     password: string;
     profile_pic?: string;
 }
 
-const userSchema = new Schema <IUser> ({
+export interface IUserDoc extends IUser, Document {}
+
+const userSchema = new Schema <IUserDoc> ({
     name: {
         type: String,
         required: true
@@ -36,7 +38,7 @@ const userSchema = new Schema <IUser> ({
     }
 });
 
-userSchema.pre<IUser>('save', async function pre(next){
+userSchema.pre<IUserDoc>('save', async function pre(next){
     const user = this;
     if(!user.isModified('password')) return next();
     const salt = await bcrypt.genSalt(10);
@@ -47,4 +49,4 @@ userSchema.pre<IUser>('save', async function pre(next){
 
 userSchema.set('timestamps', true);
 
-export const User = model<IUser>("User", userSchema);
+export const User = model<IUserDoc>("User", userSchema);

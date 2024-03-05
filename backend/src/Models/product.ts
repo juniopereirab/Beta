@@ -13,7 +13,7 @@ export const ProductSchemaValidate = Joi.object({
     thumbnail: Joi.string().required(),
 })
 
-export interface IProduct extends Document {
+export interface IProduct {
     title: string,
     description: string,
     price: number,
@@ -25,7 +25,9 @@ export interface IProduct extends Document {
     thumbnail: string,
 }
 
-const ProductSchema = new Schema<IProduct>({
+export interface IProductDoc extends IProduct, Document {}
+
+const ProductSchema = new Schema<IProductDoc>({
     title: {
         type: String,
         required: true
@@ -64,4 +66,4 @@ const ProductSchema = new Schema<IProduct>({
     }
 })
 
-export const Product = model<IProduct>('Product', ProductSchema)
+export const Product = model<IProductDoc>('Product', ProductSchema)

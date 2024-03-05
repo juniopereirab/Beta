@@ -14,3 +14,15 @@ export const LoginValidation = yup.object().shape({
     email: yup.string().required(),
     password: yup.string().required(),
 })
+
+export const ProductValidation = yup.object().shape({
+    title: yup.string().required(),
+      description: yup.string().required(),
+      price: yup.number().required(),
+      discountPercentage: yup.number().required(),
+      rating: yup.number().required(),
+      stock: yup.number().required(),
+      brand: yup.string().required(),
+      category: yup.array().of(yup.string()).min(1),
+      thumbnail: yup.string().required(),
+})

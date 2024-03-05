@@ -1,18 +1,6 @@
 version: '3.7'
 
 services:
-  db:
-    container_name: beta_db
-    image: mongo:latest
-    restart: always
-    command: mongod --quiet --logpath /dev/null
-    ports:
-      - 27017:27017
-    volumes:
-      - ./database:/data/database
-    environment: 
-      - MONGO_INITDB_DATABASE= BetaDB
-  
   backend:
       container_name: beta_backend
       command: npm start
@@ -24,5 +12,3 @@ services:
         - /backend/node_modules
       ports:
         - '5050:5050'
-      depends_on: 
-        - db
