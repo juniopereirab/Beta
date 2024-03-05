@@ -1,5 +1,5 @@
 export const formatCurrency = (
-    value: number,
+    value?: number,
     options?: { style?: 'decimal' | 'currency' }
 ): string => {
     if (value === undefined) {
